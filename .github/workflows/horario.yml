@@ -21,16 +21,16 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Instalar Librerías
-        run: pip install requests pdfplumber pandas
+   - name: Instalar Librerías
+        run: pip install requests pandas beautifulsoup4 lxml
 
-      - name: Ejecutar Script del SAT
-        run: python main.py
+      - name: Ejecutar Scraper SAT
+        run: python scraper_sat.py
 
       - name: Guardar cambios (Commit)
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add BD_PADRON_SAT.csv
-          git commit -m "Actualizacion Automatica SAT" || exit 0
+          git add *.csv
+          git commit -m "Actualizacion Listas SAT" || exit 0
           git push
