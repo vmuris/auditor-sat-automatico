@@ -1,0 +1,1 @@
+# auditor-sat-automatico
