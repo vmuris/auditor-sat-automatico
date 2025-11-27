@@ -1,0 +1,36 @@
+name: Actualizar Padron SAT
+
+on:
+  schedule:
+    # 5:00 AM Hora CDMX es aprox 11:00 UTC (ajuste estándar)
+    - cron: '0 11 * * *'
+  workflow_dispatch: # Permite ejecutar manualmente con un botón
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checar repositorio
+        uses: actions/checkout@v3
+
+      - name: Instalar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Instalar Librerías
+        run: pip install requests pdfplumber pandas
+
+      - name: Ejecutar Script del SAT
+        run: python main.py
+
+      - name: Guardar cambios (Commit)
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add BD_PADRON_SAT.csv
+          git commit -m "Actualizacion Automatica SAT" || exit 0
+          git push
